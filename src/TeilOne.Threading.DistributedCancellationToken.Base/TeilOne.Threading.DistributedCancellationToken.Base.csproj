@@ -5,21 +5,16 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
-    <PackageReference Include="TeilOne.Threading.DistributedCancellationToken.Base" Version="0.0.2" />
-  </ItemGroup>
-
   <PropertyGroup Label="Package information">
-    <Description>Distributed cancellation tokens based on Redis Pub/Sub</Description>
+    <Description>Base classes for distributed cancellation tokens</Description>
     <VersionPrefix>0.0.2</VersionPrefix>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <Authors>Sergei Koshel</Authors>
-    <PackageTags>cancellation token;distributed;redis</PackageTags>
+    <PackageTags>cancellation token;distributed</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/teil-one/TeilOne.Threading</PackageProjectUrl>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>

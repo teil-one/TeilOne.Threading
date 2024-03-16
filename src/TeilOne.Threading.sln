@@ -5,7 +5,11 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.DistributedCancellationToken.Redis", "TeilOne.Threading.DistributedCancellationToken.Redis\TeilOne.Threading.DistributedCancellationToken.Redis.csproj", "{3F5E3DA3-5F72-4619-BDFA-BE195969BC41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeilOne.Threading.DistributedCancellationToken.Redis.Tests", "TeilOne.Threading.DistributedCancellationToken.Redis.Tests\TeilOne.Threading.DistributedCancellationToken.Redis.Tests.csproj", "{226BA508-6579-47D1-898F-FE7640B53DDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.DistributedCancellationToken.Redis.Tests", "TeilOne.Threading.DistributedCancellationToken.Redis.Tests\TeilOne.Threading.DistributedCancellationToken.Redis.Tests.csproj", "{226BA508-6579-47D1-898F-FE7640B53DDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeilOne.Threading.DistributedCancellationToken.Base.Tests", "TeilOne.Threading.DistributedCancellationToken.Base.Tests\TeilOne.Threading.DistributedCancellationToken.Base.Tests.csproj", "{A7B3BBE4-A016-46AE-8790-9982C382B8C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeilOne.Threading.DistributedCancellationToken.Base", "TeilOne.Threading.DistributedCancellationToken.Base\TeilOne.Threading.DistributedCancellationToken.Base.csproj", "{1C12894C-105F-4B40-9125-8253F1D684E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{226BA508-6579-47D1-898F-FE7640B53DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{226BA508-6579-47D1-898F-FE7640B53DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{226BA508-6579-47D1-898F-FE7640B53DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B3BBE4-A016-46AE-8790-9982C382B8C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B3BBE4-A016-46AE-8790-9982C382B8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B3BBE4-A016-46AE-8790-9982C382B8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B3BBE4-A016-46AE-8790-9982C382B8C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C12894C-105F-4B40-9125-8253F1D684E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C12894C-105F-4B40-9125-8253F1D684E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C12894C-105F-4B40-9125-8253F1D684E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C12894C-105F-4B40-9125-8253F1D684E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,45 +1,36 @@
 ﻿using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using TeilOne.Threading.DistributedCancellationToken.Base;
 
 namespace TeilOne.Threading.DistributedCancellationToken.Redis
 {
-    public sealed class RedisDistributedCancellationTokenSourceFactory : IDisposable
+    public class RedisDistributedCancellationTokenSourceFactory : BaseDistributedCancellationTokenSourceFactory
     {
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<CancellationTokenSource, bool>> _cancellationTokenSources = new ConcurrentDictionary<string, ConcurrentDictionary<CancellationTokenSource, bool>>();
-        private readonly SemaphoreSlim _channelSubscribtionSemaphore = new SemaphoreSlim(1, 1);
-
         private readonly RedisChannel _channel;
+        private readonly SemaphoreSlim _channelSubscribtionSemaphore = new SemaphoreSlim(1, 1);
         private readonly ConnectionMultiplexer _connectionMultiplexer;
-
-        private readonly DateTime _lastCleanup = DateTime.Now;
-        private readonly TimeSpan _cleanupInterval;
-        private readonly SemaphoreSlim _cleanupSemaphore = new SemaphoreSlim(1, 1);
 
         private volatile ISubscriber _channelSubscriber;
 
-        public ICollection<string> ActiveCancellations => _cancellationTokenSources.Keys;
+        private bool _isDisposed;
 
         public RedisDistributedCancellationTokenSourceFactory(string configuration, string channelName, TimeSpan? cleanupInterval = null)
+            : base(cleanupInterval)
         {
             _connectionMultiplexer = ConnectionMultiplexer.Connect(configuration);
             _channel = RedisChannel.Literal(channelName);
-
-            _cleanupInterval = cleanupInterval ?? TimeSpan.FromSeconds(60);
         }
 
-        public async Task<CancellationTokenSource> Create(string cancellationName)
+        public override async Task<CancellationTokenSource> Create(string cancellationName)
         {
-            await CleanupIfNeeded();
-
             await SubscribeToChannel();
 
-            var tokensForCancellation = _cancellationTokenSources.GetOrAdd(cancellationName, key => new ConcurrentDictionary<CancellationTokenSource, bool>());
+            var cts = await base.Create(cancellationName);
 
-            var cts = new CancellationTokenSource();
+            var tokensForCancellation = _cancellationTokenSources.GetOrAdd(cancellationName, key => new ConcurrentDictionary<CancellationTokenSource, bool>());
 
             cts.Token.Register(async () =>
             {
@@ -49,14 +40,22 @@ namespace TeilOne.Threading.DistributedCancellationToken.Redis
                 }
             });
 
-            tokensForCancellation.TryAdd(cts, true);
-
             return cts;
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            _connectionMultiplexer.Dispose();
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    _connectionMultiplexer.Dispose();
+                }
+
+                _isDisposed = true;
+            }
+
+            base.Dispose(disposing);
         }
 
         private async Task SubscribeToChannel()
@@ -101,47 +100,6 @@ namespace TeilOne.Threading.DistributedCancellationToken.Redis
             finally
             {
                 _channelSubscribtionSemaphore.Release();
-            }
-        }
-
-        private void RemoveDisposedCancellationTokenSources()
-        {
-            foreach (var tokensForCancellationItem in _cancellationTokenSources)
-            {
-                var tokensForCancellation = tokensForCancellationItem.Value;
-                foreach (var ctsItem in tokensForCancellation)
-                {
-                    var cts = ctsItem.Key;
-                    try
-                    {
-                        _ = cts.Token;
-                    }
-                    catch(ObjectDisposedException)
-                    {
-                        tokensForCancellation.TryRemove(cts, out _);
-                        if (tokensForCancellation.IsEmpty)
-                        {
-                            _cancellationTokenSources.TryRemove(tokensForCancellationItem.Key, out _);
-                        }
-                    }
-                }
-            }
-        }
-
-        private async Task CleanupIfNeeded()
-        {
-            await _cleanupSemaphore.WaitAsync();
-
-            try
-            {
-                if (DateTime.Now.Subtract(_lastCleanup) >= _cleanupInterval)
-                {
-                    RemoveDisposedCancellationTokenSources();
-                }
-            }
-            finally
-            {
-                _cleanupSemaphore.Release();
             }
         }
     }
