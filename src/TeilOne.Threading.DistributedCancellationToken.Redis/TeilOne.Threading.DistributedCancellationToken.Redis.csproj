@@ -7,12 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
-    <PackageReference Include="TeilOne.Threading.DistributedCancellationToken.Base" Version="0.0.2" />
+    <PackageReference Include="TeilOne.Threading.DistributedCancellationToken.Base" Version="0.0.3" />
   </ItemGroup>
 
   <PropertyGroup Label="Package information">
     <Description>Distributed cancellation tokens based on Redis Pub/Sub</Description>
-    <VersionPrefix>0.0.2</VersionPrefix>
+    <VersionPrefix>0.0.3</VersionPrefix>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <Authors>Sergei Koshel</Authors>
     <PackageTags>cancellation token;distributed;redis</PackageTags>

@@ -30,13 +30,14 @@ namespace TeilOne.Threading.DistributedCancellationToken.Redis
 
             var cts = await base.Create(cancellationName);
 
-            var tokensForCancellation = _cancellationTokenSources.GetOrAdd(cancellationName, key => new ConcurrentDictionary<CancellationTokenSource, bool>());
-
             cts.Token.Register(async () =>
             {
-                if (tokensForCancellation.TryRemove(cts, out _))
+                if (_cancellationTokenSources.TryGetValue(cancellationName, out var tokensForCancellation))
                 {
-                    await _channelSubscriber.PublishAsync(_channel, cancellationName);
+                    if (tokensForCancellation.TryRemove(cts, out _))
+                    {
+                        await _channelSubscriber.PublishAsync(_channel, cancellationName);
+                    }
                 }
             });
 
