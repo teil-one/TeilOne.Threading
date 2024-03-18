@@ -28,10 +28,12 @@ namespace TeilOne.Threading.DistributedCancellationToken.Base
             var tokensForCancellation = _cancellationTokenSources.GetOrAdd(cancellationName, key => new ConcurrentDictionary<CancellationTokenSource, bool>());
 
             var cts = new CancellationTokenSource();
-            cts.Token.Register(() =>
+            cts.Token.Register(async () =>
             {
-                if (_cancellationTokenSources.TryGetValue(cancellationName, out var tokens))
+                if (_cancellationTokenSources.TryRemove(cancellationName, out var tokens))
                 {
+                    await OnCancellation(cancellationName);
+
                     foreach (var ctsItem in tokens)
                     {
                         ctsItem.Key.Cancel();
@@ -42,6 +44,11 @@ namespace TeilOne.Threading.DistributedCancellationToken.Base
             tokensForCancellation.TryAdd(cts, true);
 
             return cts;
+        }
+
+        protected virtual Task OnCancellation(string cancellationName)
+        {
+            return Task.CompletedTask;
         }
 
         private void RemoveDisposedCancellationTokenSources()

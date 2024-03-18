@@ -1,3 +1,3 @@
-﻿# [TeilOne.Threading.DistributedCancellationToken.Redis](https://www.nuget.org/packages/TeilOne.Threading.DistributedCancellationToken.Redis)
+﻿# TeilOne.Threading.DistributedCancellationToken.Base
 
-Distributed cancellation tokens based on Redis Pub/Sub
+Base classes for distributed cancellation tokens like [TeilOne.Threading.DistributedCancellationToken.Redis](https://www.nuget.org/packages/TeilOne.Threading.DistributedCancellationToken.Redis/)

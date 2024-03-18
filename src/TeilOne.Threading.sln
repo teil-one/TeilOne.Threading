@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.Distribut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.DistributedCancellationToken.Redis.Tests", "TeilOne.Threading.DistributedCancellationToken.Redis.Tests\TeilOne.Threading.DistributedCancellationToken.Redis.Tests.csproj", "{226BA508-6579-47D1-898F-FE7640B53DDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeilOne.Threading.DistributedCancellationToken.Base.Tests", "TeilOne.Threading.DistributedCancellationToken.Base.Tests\TeilOne.Threading.DistributedCancellationToken.Base.Tests.csproj", "{A7B3BBE4-A016-46AE-8790-9982C382B8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.DistributedCancellationToken.Base.Tests", "TeilOne.Threading.DistributedCancellationToken.Base.Tests\TeilOne.Threading.DistributedCancellationToken.Base.Tests.csproj", "{A7B3BBE4-A016-46AE-8790-9982C382B8C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeilOne.Threading.DistributedCancellationToken.Base", "TeilOne.Threading.DistributedCancellationToken.Base\TeilOne.Threading.DistributedCancellationToken.Base.csproj", "{1C12894C-105F-4B40-9125-8253F1D684E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeilOne.Threading.DistributedCancellationToken.Base", "TeilOne.Threading.DistributedCancellationToken.Base\TeilOne.Threading.DistributedCancellationToken.Base.csproj", "{1C12894C-105F-4B40-9125-8253F1D684E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38BE9ABF-C602-479E-B8CC-69F90FA367F5}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

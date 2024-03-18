@@ -1,6 +1,5 @@
 ﻿using StackExchange.Redis;
 using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using TeilOne.Threading.DistributedCancellationToken.Base;
@@ -29,19 +28,12 @@ namespace TeilOne.Threading.DistributedCancellationToken.Redis
             await SubscribeToChannel();
 
             var cts = await base.Create(cancellationName);
-
-            cts.Token.Register(async () =>
-            {
-                if (_cancellationTokenSources.TryGetValue(cancellationName, out var tokensForCancellation))
-                {
-                    if (tokensForCancellation.TryRemove(cts, out _))
-                    {
-                        await _channelSubscriber.PublishAsync(_channel, cancellationName);
-                    }
-                }
-            });
-
             return cts;
+        }
+
+        protected override async Task OnCancellation(string cancellationName)
+        {
+            await _channelSubscriber.PublishAsync(_channel, cancellationName);
         }
 
         protected override void Dispose(bool disposing)
@@ -83,8 +75,6 @@ namespace TeilOne.Threading.DistributedCancellationToken.Redis
 
                     if (_cancellationTokenSources.TryRemove(cancellationName, out var tokensForCancellation))
                     {
-                        await _channelSubscriber.PublishAsync(_channel, cancellationName);
-
                         foreach (var ctsItem in tokensForCancellation)
                         {
                             var cts = ctsItem.Key;
